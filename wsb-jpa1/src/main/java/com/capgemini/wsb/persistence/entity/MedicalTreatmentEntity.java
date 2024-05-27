@@ -2,19 +2,12 @@ package com.capgemini.wsb.persistence.entity;
 
 import com.capgemini.wsb.persistence.enums.TreatmentType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "MEDICAL_TREATMENT")
+@Table(name = "MedicalTreatment")
 public class MedicalTreatmentEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,8 +16,13 @@ public class MedicalTreatmentEntity {
 	private String description;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private TreatmentType type;
 
+	@OneToMany(mappedBy = "treatment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits;
+
+	// Gettery i settery
 	public Long getId() {
 		return id;
 	}
@@ -49,4 +47,11 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
+	public List<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(List<VisitEntity> visits) {
+		this.visits = visits;
+	}
 }

@@ -3,36 +3,34 @@ package com.capgemini.wsb.mapper;
 import com.capgemini.wsb.dto.AddressTO;
 import com.capgemini.wsb.persistence.entity.AddressEntity;
 
-public final class AddressMapper
-{
-
-    public static AddressTO mapToTO(final AddressEntity addressEntity)
-    {
-        if (addressEntity == null)
-        {
+public class AddressMapper {
+    public static AddressTO toAddressTO(AddressEntity entity) {
+        if (entity == null) {
             return null;
         }
-        final AddressTO addressTO = new AddressTO();
-        addressTO.setId(addressEntity.getId());
-        addressTO.setAddressLine1(addressEntity.getAddressLine1());
-        addressTO.setAddressLine2(addressEntity.getAddressLine2());
-        addressTO.setCity(addressEntity.getCity());
-        addressTO.setPostalCode(addressEntity.getPostalCode());
-        return addressTO;
+
+        AddressTO to = new AddressTO();
+        to.setId(entity.getId());
+        to.setCity(entity.getCity());
+        to.setAddressLine1(entity.getAddressLine1());
+        to.setAddressLine2(entity.getAddressLine2());
+        to.setPostalCode(entity.getPostalCode());
+
+        return to;
     }
 
-    public static AddressEntity mapToEntity(final AddressTO addressTO)
-    {
-        if(addressTO == null)
-        {
+    public static AddressEntity toAddressEntity(AddressTO to) {
+        if (to == null) {
             return null;
         }
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setId(addressTO.getId());
-        addressEntity.setAddressLine1(addressTO.getAddressLine1());
-        addressEntity.setAddressLine2(addressTO.getAddressLine2());
-        addressEntity.setCity(addressTO.getCity());
-        addressEntity.setPostalCode(addressTO.getPostalCode());
-        return addressEntity;
+
+        AddressEntity entity = new AddressEntity();
+        entity.setId(to.getId());
+        entity.setCity(to.getCity());
+        entity.setAddressLine1(to.getAddressLine1());
+        entity.setAddressLine2(to.getAddressLine2());
+        entity.setPostalCode(to.getPostalCode());
+
+        return entity;
     }
 }

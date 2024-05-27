@@ -1,26 +1,32 @@
 package com.capgemini.wsb.persistence.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "ADDRESS")
+@Table(name = "Address")
 public class AddressEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "city")
 	private String city;
 
+	@Column(name = "address_line_1")
 	private String addressLine1;
 
+	@Column(name = "address_line_2")
 	private String addressLine2;
 
+	@Column(name = "postal_code")
 	private String postalCode;
+
+	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PatientEntity> patients;
+
+	// Gettery i settery
 
 	public Long getId() {
 		return id;
@@ -62,4 +68,11 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+	public List<PatientEntity> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<PatientEntity> patients) {
+		this.patients = patients;
+	}
 }

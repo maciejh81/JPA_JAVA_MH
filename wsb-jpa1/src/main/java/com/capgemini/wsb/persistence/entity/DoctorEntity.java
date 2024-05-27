@@ -1,42 +1,47 @@
 package com.capgemini.wsb.persistence.entity;
 
+import com.capgemini.wsb.persistence.entity.AddressEntity;
+import com.capgemini.wsb.persistence.entity.VisitEntity;
 import com.capgemini.wsb.persistence.enums.Specialization;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "DOCTOR")
+@Table(name = "Doctor")
 public class DoctorEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Column(nullable = false)
+	@Column(name = "telephone_number", nullable = false)
 	private String telephoneNumber;
 
+	@Column(nullable = false)
 	private String email;
 
-	@Column(nullable = false)
+	@Column(name = "doctor_number", nullable = false)
 	private String doctorNumber;
 
-	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Specialization specialization;
 
+	@ManyToOne
+	@JoinColumn(name = "address_id", nullable = false)
+	private AddressEntity address;
+
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<VisitEntity> visits = new HashSet<>();
+
+	// Gettery i settery
 	public Long getId() {
 		return id;
 	}
@@ -93,4 +98,19 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
+
+	public Set<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Set<VisitEntity> visits) {
+		this.visits = visits;
+	}
 }

@@ -1,27 +1,34 @@
 package com.capgemini.wsb.persistence.entity;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
-@Table(name = "VISIT")
+@Table(name = "Visit")
 public class VisitEntity {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String description;
 
 	@Column(nullable = false)
 	private LocalDateTime time;
 
+	@ManyToOne
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private DoctorEntity doctor;
+
+	@ManyToOne
+	@JoinColumn(name = "patient_id", nullable = false)
+	private PatientEntity patient;
+
+	@ManyToOne
+	@JoinColumn(name = "treatment_id", nullable = false)
+	private MedicalTreatmentEntity treatment;
+
+	// Gettery i settery
 	public Long getId() {
 		return id;
 	}
@@ -46,4 +53,27 @@ public class VisitEntity {
 		this.time = time;
 	}
 
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
+	}
+
+	public MedicalTreatmentEntity getTreatment() {
+		return treatment;
+	}
+
+	public void setTreatment(MedicalTreatmentEntity treatment) {
+		this.treatment = treatment;
+	}
 }

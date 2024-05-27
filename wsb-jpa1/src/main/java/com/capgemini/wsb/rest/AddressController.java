@@ -1,30 +1,36 @@
 package com.capgemini.wsb.rest;
 
 import com.capgemini.wsb.dto.AddressTO;
-import com.capgemini.wsb.rest.exception.EntityNotFoundException;
 import com.capgemini.wsb.service.AddressService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-public class AddressController
-{
+@RequestMapping("/addresses")
+public class AddressController {
 
-    private final AddressService addressService;
+    @Autowired
+    private AddressService addressService;
 
-
-    public AddressController(AddressService addressService) {
-        this.addressService = addressService;
+    @GetMapping("/{id}")
+    public AddressTO getAddressById(@PathVariable Long id) {
+        return addressService.getAddressById(id);
     }
 
-    @GetMapping("/address/{id}")
-    AddressTO findBaId(@PathVariable final Long id) {
-        final AddressTO address = addressService.findById(id);
-        if(address != null)
-        {
-            return address;
-        }
-        throw new EntityNotFoundException(id);
+    @GetMapping
+    public List<AddressTO> getAllAddresses() {
+        return addressService.getAllAddresses();
+    }
+
+    @PostMapping
+    public AddressTO createAddress(@RequestBody AddressTO addressTO) {
+        return addressService.saveAddress(addressTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAddress(@PathVariable Long id) {
+        addressService.deleteAddress(id);
     }
 }

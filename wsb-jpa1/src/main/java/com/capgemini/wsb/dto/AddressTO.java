@@ -1,19 +1,13 @@
 package com.capgemini.wsb.dto;
 
-import java.io.Serializable;
-
-public class AddressTO implements Serializable
-{
+public class AddressTO {
     private Long id;
-
     private String city;
-
     private String addressLine1;
-
     private String addressLine2;
-
     private String postalCode;
 
+    // Gettery i settery
     public Long getId() {
         return id;
     }
